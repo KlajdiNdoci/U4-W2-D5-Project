@@ -62,6 +62,34 @@ public class Application {
                     switch (userSelection) {
                         case 1:
                             System.out.println("Hai scelto l'opzione 1.");
+                            System.out.println("Scrivi L per aggiungere un libro o R per aggiungere una rivista");
+                            String userInput = input.nextLine();
+                            try {
+                                if (userInput.equalsIgnoreCase("L")) {
+                                    System.out.println("Inserisci il titolo del libro");
+                                    String bookTitle = input.nextLine();
+                                    System.out.println("Inserisci l'autore del libro");
+                                    String bookAuthor = input.nextLine();
+                                    System.out.println("Inserisci il genere del libro");
+                                    String bookGenre = input.nextLine();
+                                    System.out.println("Inserisci il codice ISBN del libro");
+                                    long bookISBN = Long.parseLong(input.nextLine());
+                                    System.out.println("Inserisci l'anno di pubblicazione del libro");
+                                    int bookYear = Integer.parseInt(input.nextLine());
+                                    System.out.println("Inserisci il numero di pagine del libro");
+                                    int bookPages = Integer.parseInt(input.nextLine());
+                                    Libro libro = new Libro(bookISBN, bookTitle, bookYear, bookPages, bookAuthor, bookGenre);
+                                    catalogo.add(libro);
+                                    System.out.println("Hai inserito questo libro");
+                                    System.out.println(libro);
+                                    System.out.println();
+
+                                }
+                            } catch (NumberFormatException e) {
+                                System.err.println("Hai inserito un valore non numerico" + e);
+                            } catch (Exception e) {
+                                System.err.println(e);
+                            }
 
                             break;
                         case 2:
