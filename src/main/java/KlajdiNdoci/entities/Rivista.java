@@ -22,10 +22,9 @@ public class Rivista extends Catalogo {
         this.numeroPagine = random.nextInt(20, 100);
     }
 
-    public Rivista(long ISBN, String titolo, int annoPubblicazione, int numeroPagine) {
-        super(ISBN, titolo, annoPubblicazione, numeroPagine);
-        Random random = new Random();
-        this.numeroPagine = random.nextInt(20, 100);
+
+    public Periodicitá getPeriodicitá() {
+        return periodicitá;
     }
 
     @Override

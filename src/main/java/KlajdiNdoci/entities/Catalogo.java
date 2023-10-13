@@ -2,7 +2,7 @@ package KlajdiNdoci.entities;
 
 import java.util.Random;
 
-public abstract class Catalogo {
+public class Catalogo {
     protected long ISBN;
     protected String titolo;
     protected int annoPubblicazione;
@@ -21,6 +21,14 @@ public abstract class Catalogo {
         this.titolo = titolo;
         this.annoPubblicazione = annoPubblicazione;
         this.numeroPagine = numeroPagine;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public int getNumeroPagine() {
+        return numeroPagine;
     }
 
     public long getISBN() {

@@ -18,9 +18,14 @@ public class Libro extends Catalogo {
         this.genere = genere;
     }
 
+    public String getGenere() {
+        return genere;
+    }
+
     public String getAutore() {
         return autore;
     }
+
 
     @Override
     public String toString() {

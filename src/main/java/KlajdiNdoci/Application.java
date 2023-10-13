@@ -7,7 +7,9 @@ import KlajdiNdoci.enums.Periodicitá;
 import com.github.javafaker.Faker;
 import org.apache.commons.io.FileUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -21,28 +23,13 @@ public class Application {
 
         Scanner input = new Scanner(System.in);
         try {
-            List<Catalogo> catalogo = new ArrayList<>();
-            Faker faker = new Faker();
 
-            for (int i = 0; i < 6; i++) {
-                Libro libro = new Libro(faker.book().title(), faker.book().author(), faker.book().genre());
-                catalogo.add(libro);
-            }
-
-
-            for (int i = 0; i < 2; i++) {
-                Rivista rivistaSettimanale = new Rivista(faker.book().title(), Periodicitá.SETTIMANALE);
-                Rivista rivistaMensile = new Rivista(faker.book().title(), Periodicitá.MENSILE);
-                Rivista rivistaSemestrale = new Rivista(faker.book().title(), Periodicitá.SEMESTRALE);
-
-                catalogo.add(rivistaSettimanale);
-                catalogo.add(rivistaMensile);
-                catalogo.add(rivistaSemestrale);
-
-            }
-
+            String filePath = "src/output.txt";
+            List<Catalogo> catalogo = readFromDisk(filePath);
             catalogo.forEach(System.out::println);
-            System.out.println();
+            if (catalogo.isEmpty()) {
+                generateItems(catalogo);
+            }
 
 
             int userSelection = -1;
@@ -365,27 +352,82 @@ public class Application {
         } catch (Exception e) {
             System.err.println(e);
         } finally {
-
             input.close();
         }
 
     }
 
     public static void saveToDisk(List<Catalogo> catalogo) {
+        String toWrite = "";
+
+
+        for (Catalogo item : catalogo) {
+            if (item instanceof Libro) {
+                toWrite += item.getISBN() + "@" + item.getTitolo() + "@" + item.getAnnoPubblicazione() + "@" + item.getNumeroPagine() + "@" + ((Libro) item).getAutore() + "@" + ((Libro) item).getGenere() + "#";
+            } else if (item instanceof Rivista) {
+                toWrite += (item.getISBN() + "@" + item.getTitolo() + "@" + item.getAnnoPubblicazione() + "@" + item.getNumeroPagine() + "@" + ((Rivista) item).getPeriodicitá()) + "#";
+            }
+        }
 
         File file = new File("src/output.txt");
-
-
         try {
+
             FileUtils.writeStringToFile(file, "", StandardCharsets.UTF_8, false);
-            for (Catalogo item : catalogo) {
-                FileUtils.writeStringToFile(file, item + System.lineSeparator(), StandardCharsets.UTF_8, true);
-            }
-            
+            FileUtils.writeStringToFile(file, toWrite + System.lineSeparator(), StandardCharsets.UTF_8, true);
+
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static List<Catalogo> readFromDisk(String filePath) {
+        List<Catalogo> catalogo = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("#");
+
+                for (String part : parts) {
+                    String[] attributes = part.split("@");
+
+                    if (attributes.length == 6) {
+                        Libro libro = new Libro(Long.parseLong(attributes[0]), attributes[1], Integer.parseInt(attributes[2]), Integer.parseInt(attributes[3]), attributes[4], attributes[5]);
+                        catalogo.add(libro);
+                    } else if (attributes.length == 5) {
+                        Rivista rivista = new Rivista(Long.parseLong(attributes[0]), attributes[1], Integer.parseInt(attributes[2]), Integer.parseInt(attributes[3]), Periodicitá.valueOf(attributes[4].toUpperCase()));
+                        catalogo.add(rivista);
+
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return catalogo;
+    }
+
+    public static void generateItems(List<Catalogo> catalogo) {
+        Faker faker = new Faker();
+
+        for (int i = 0; i < 6; i++) {
+            Libro libro = new Libro(faker.book().title(), faker.book().author(), faker.book().genre());
+            catalogo.add(libro);
+        }
+        for (int i = 0; i < 2; i++) {
+            Rivista rivistaSettimanale = new Rivista(faker.book().title(), Periodicitá.SETTIMANALE);
+            Rivista rivistaMensile = new Rivista(faker.book().title(), Periodicitá.MENSILE);
+            Rivista rivistaSemestrale = new Rivista(faker.book().title(), Periodicitá.SEMESTRALE);
+
+            catalogo.add(rivistaSettimanale);
+            catalogo.add(rivistaMensile);
+            catalogo.add(rivistaSemestrale);
+        }
+
+        catalogo.forEach(System.out::println);
+        System.out.println();
     }
 
 }
