@@ -3,10 +3,10 @@ package KlajdiNdoci.entities;
 import java.util.Random;
 
 public abstract class Catalogo {
-    private long ISBN;
-    private String titolo;
-    private int annoPubblicazione;
-    private int numeroPagine;
+    protected long ISBN;
+    protected String titolo;
+    protected int annoPubblicazione;
+    protected int numeroPagine;
 
     public Catalogo(String titolo) {
         Random random = new Random();
@@ -21,5 +21,15 @@ public abstract class Catalogo {
         this.titolo = titolo;
         this.annoPubblicazione = annoPubblicazione;
         this.numeroPagine = numeroPagine;
+    }
+
+    @Override
+    public String toString() {
+        return "Catalogo{" +
+                "ISBN=" + ISBN +
+                ", titolo='" + titolo + '\'' +
+                ", annoPubblicazione=" + annoPubblicazione +
+                ", numeroPagine=" + numeroPagine +
+                '}';
     }
 }
