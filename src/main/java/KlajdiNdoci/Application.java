@@ -5,7 +5,11 @@ import KlajdiNdoci.entities.Libro;
 import KlajdiNdoci.entities.Rivista;
 import KlajdiNdoci.enums.Periodicitá;
 import com.github.javafaker.Faker;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,10 +18,12 @@ public class Application {
 
     public static void main(String[] args) {
 
+
         Scanner input = new Scanner(System.in);
         try {
-            Faker faker = new Faker();
             List<Catalogo> catalogo = new ArrayList<>();
+            Faker faker = new Faker();
+
             for (int i = 0; i < 6; i++) {
                 Libro libro = new Libro(faker.book().title(), faker.book().author(), faker.book().genre());
                 catalogo.add(libro);
@@ -342,12 +348,14 @@ public class Application {
                         case 0:
                             System.out.println("Stai uscendo dal programma.");
                             Thread.sleep(500);
+                            saveToDisk(catalogo);
                             break;
 
                         default:
                             System.err.println("Scelta non valida. Devi inserire un numero da 1 a 7.");
 
                             break;
+
                     }
                 }
             }
@@ -357,8 +365,27 @@ public class Application {
         } catch (Exception e) {
             System.err.println(e);
         } finally {
+
             input.close();
         }
 
     }
+
+    public static void saveToDisk(List<Catalogo> catalogo) {
+
+        File file = new File("src/output.txt");
+
+
+        try {
+            FileUtils.writeStringToFile(file, "", StandardCharsets.UTF_8, false);
+            for (Catalogo item : catalogo) {
+                FileUtils.writeStringToFile(file, item + System.lineSeparator(), StandardCharsets.UTF_8, true);
+            }
+            
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
