@@ -117,29 +117,67 @@ public class Application {
                                 } else if (userInput.equalsIgnoreCase("R")) {
                                     System.out.println("Inserisci il titolo della rivista");
                                     String magazineTitle = input.nextLine();
-                                    System.out.println("Inserisci il codice ISBN del libro");
+                                    System.out.println("Inserisci il codice ISBN della rivista");
                                     long magazineISBN = Long.parseLong(input.nextLine());
-                                    System.out.println("Inserisci l'anno di pubblicazione del libro");
+                                    System.out.println("Inserisci l'anno di pubblicazione della rivista");
                                     int magazineYear = Integer.parseInt(input.nextLine());
-                                    System.out.println("Inserisci il numero di pagine del libro");
+
+                                    boolean validMagazineYear = false;
+                                    while (!validMagazineYear) {
+                                        try {
+                                            if (magazineYear < 0 || magazineYear > 2023) {
+                                                System.err.println("L'anno di pubblicazione non può essere negativo.");
+                                            } else {
+                                                validMagazineYear = true;
+                                            }
+
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico.");
+                                        }
+                                    }
+
+                                    System.out.println("Inserisci il numero di pagine della rivista");
                                     int magazinePages = Integer.parseInt(input.nextLine());
+
+                                    boolean validMagazinePages = false;
+                                    while (!validMagazinePages) {
+
+                                        try {
+                                            if (magazinePages < 1) {
+                                                System.err.println("Il numero di pagine deve essere maggiore di zero. Riprova.");
+                                            } else {
+                                                validMagazinePages = true;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico. Riprova.");
+                                        }
+                                    }
+
                                     System.out.println("Inserisci SET se é un settimanale, MEN se é un mensile, SEM se é un semestrale");
-                                    String magInput = input.nextLine();
                                     Periodicitá magazinePeriodicity = null;
-                                    if (magInput.equalsIgnoreCase("SET")) {
-                                        magazinePeriodicity = Periodicitá.SETTIMANALE;
-                                    } else if (magInput.equalsIgnoreCase("MEN")) {
-                                        magazinePeriodicity = Periodicitá.MENSILE;
-                                    } else if (magInput.equalsIgnoreCase("SEM")) {
-                                        magazinePeriodicity = Periodicitá.SEMESTRALE;
-                                    } else {
-                                        System.err.println("Inserisci un valore valido");
+                                    boolean validPeriodicity = false;
+                                    String magInput;
+
+                                    while (!validPeriodicity) {
+                                        magInput = input.nextLine();
+                                        if (magInput.equalsIgnoreCase("SET")) {
+                                            magazinePeriodicity = Periodicitá.SETTIMANALE;
+                                            validPeriodicity = true;
+                                        } else if (magInput.equalsIgnoreCase("MEN")) {
+                                            magazinePeriodicity = Periodicitá.MENSILE;
+                                            validPeriodicity = true;
+                                        } else if (magInput.equalsIgnoreCase("SEM")) {
+                                            magazinePeriodicity = Periodicitá.SEMESTRALE;
+                                            validPeriodicity = true;
+                                        } else {
+                                            System.err.println("Inserisci un valore valido.");
+                                        }
                                     }
 
 
                                     Rivista rivista = new Rivista(magazineISBN, magazineTitle, magazineYear, magazinePages, magazinePeriodicity);
                                     catalogo.add(rivista);
-                                    System.out.println("Hai inserito questo libro");
+                                    System.out.println("Hai inserito questa rivista");
                                     System.out.println(rivista);
                                     System.out.println();
 
