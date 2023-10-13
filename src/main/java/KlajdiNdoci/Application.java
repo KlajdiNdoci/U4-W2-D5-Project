@@ -41,7 +41,7 @@ public class Application {
 
             int userSelection = -1;
             while (userSelection != 0) {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 System.out.println("Inserisci 1 per aggiungere un elemento");
                 System.out.println("Inserisci 2 per rimuovere un elemento tramite ISBN");
                 System.out.println("Inserisci 3 per cercare un elemento tramite ISBN");
@@ -67,14 +67,48 @@ public class Application {
                             String userInput = input.nextLine();
                             try {
                                 if (userInput.equalsIgnoreCase("L")) {
-                                    System.out.println("Inserisci il titolo del libro");
-                                    String bookTitle = input.nextLine();
-                                    System.out.println("Inserisci l'autore del libro");
-                                    String bookAuthor = input.nextLine();
-                                    System.out.println("Inserisci il genere del libro");
-                                    String bookGenre = input.nextLine();
-                                    System.out.println("Inserisci il codice ISBN del libro");
-                                    long bookISBN = Long.parseLong(input.nextLine());
+                                    String bookTitle = "";
+                                    while (bookTitle.isEmpty()) {
+                                        System.out.println("Inserisci il titolo del libro:");
+                                        bookTitle = input.nextLine().trim();
+
+                                        if (bookTitle.isEmpty()) {
+                                            System.err.println("Il titolo del libro non può essere vuoto. Riprova.");
+                                        }
+                                    }
+
+                                    String bookAuthor = "";
+                                    while (bookAuthor.isEmpty()) {
+                                        System.out.println("Inserisci l'autore del libro");
+                                        bookAuthor = input.nextLine().trim();
+
+                                        if (bookAuthor.isEmpty()) {
+                                            System.err.println("L'autore del libro non può essere vuoto. Riprova.");
+                                        }
+                                    }
+
+                                    String bookGenre = "";
+                                    while (bookGenre.isEmpty()) {
+                                        System.out.println("Inserisci il genere del libro");
+                                        bookGenre = input.nextLine().trim();
+
+                                        if (bookGenre.isEmpty()) {
+                                            System.err.println("Il genere del libro non può essere vuoto. Riprova.");
+                                        }
+                                    }
+                                    long bookISBN = 0;
+                                    boolean validBookISBN = false;
+                                    while (!validBookISBN) {
+                                        try {
+                                            System.out.println("Inserisci il codice ISBN del libro");
+                                            bookISBN = Long.parseLong(input.nextLine());
+                                            validBookISBN = true;
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico.");
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+                                    }
                                     System.out.println("Inserisci l'anno di pubblicazione del libro");
                                     int bookYear = Integer.parseInt(input.nextLine());
 
@@ -89,6 +123,8 @@ public class Application {
 
                                         } catch (NumberFormatException e) {
                                             System.err.println("Hai inserito un valore non numerico.");
+                                        } catch (Exception e) {
+                                            System.err.println(e);
                                         }
                                     }
 
@@ -106,6 +142,8 @@ public class Application {
                                             }
                                         } catch (NumberFormatException e) {
                                             System.err.println("Hai inserito un valore non numerico. Riprova.");
+                                        } catch (Exception e) {
+                                            System.err.println(e);
                                         }
                                     }
 
@@ -118,10 +156,29 @@ public class Application {
                                     System.out.println();
 
                                 } else if (userInput.equalsIgnoreCase("R")) {
-                                    System.out.println("Inserisci il titolo della rivista");
-                                    String magazineTitle = input.nextLine();
-                                    System.out.println("Inserisci il codice ISBN della rivista");
-                                    long magazineISBN = Long.parseLong(input.nextLine());
+                                    String magazineTitle = "";
+                                    while (magazineTitle.isEmpty()) {
+                                        System.out.println("Inserisci il titolo della rivista");
+                                        magazineTitle = input.nextLine().trim();
+
+                                        if (magazineTitle.isEmpty()) {
+                                            System.err.println("L'autore del libro non può essere vuoto. Riprova.");
+                                        }
+                                    }
+                                    long magazineISBN = 0;
+                                    boolean validMagazineISBN = false;
+                                    while (!validMagazineISBN) {
+                                        try {
+                                            System.out.println("Inserisci il codice ISBN della rivista");
+                                            magazineISBN = Long.parseLong(input.nextLine());
+                                            validMagazineISBN = true;
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico.");
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+                                    }
+
                                     System.out.println("Inserisci l'anno di pubblicazione della rivista");
                                     int magazineYear = Integer.parseInt(input.nextLine());
 
@@ -237,7 +294,20 @@ public class Application {
                         case 4:
                             System.out.println("Hai scelto l'opzione 4.");
                             Thread.sleep(500);
+                            System.out.println("Inserisci il codice ISBN dell'elemento che desideri cercare:");
+                            long findByYear = Long.parseLong(input.nextLine());
+                            List<Catalogo> searchedItemsByYear = catalogo.stream()
+                                    .filter(elemento -> elemento != null && elemento.getAnnoPubblicazione() == findByYear)
+                                    .toList();
 
+                            if (!searchedItemsByYear.isEmpty()) {
+                                System.out.println();
+                                System.out.println("Questo é il risultato della ricerca tramite anno di pubblicazione");
+                                searchedItemsByYear.forEach(System.out::println);
+                                System.out.println();
+                            } else {
+                                System.err.println("Nessun elemento trovato con l'anno specificato.");
+                            }
 
                             break;
                         case 5:
