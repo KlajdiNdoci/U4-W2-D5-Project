@@ -42,7 +42,7 @@ public class Application {
                 System.out.println("Inserisci 5 per ricercare tramite autore");
                 System.out.println("Inserisci 6 per salvare i dati su disco");
                 System.out.println("Inserisci 7 per caricare i dati dal disco");
-                System.out.println("Inserisci 0 per uscire");
+                System.out.println("Inserisci 0 per uscire e salvare");
 
                 try {
                     userSelection = Integer.parseInt(input.nextLine());
