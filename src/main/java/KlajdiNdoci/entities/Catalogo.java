@@ -10,7 +10,7 @@ public abstract class Catalogo {
 
     public Catalogo(String titolo) {
         Random random = new Random();
-        this.ISBN = random.nextLong();
+        this.ISBN = Math.abs(random.nextLong());
         this.titolo = titolo;
         this.annoPubblicazione = random.nextInt(1800, 2023);
         this.numeroPagine = random.nextInt(100, 800);
@@ -21,6 +21,14 @@ public abstract class Catalogo {
         this.titolo = titolo;
         this.annoPubblicazione = annoPubblicazione;
         this.numeroPagine = numeroPagine;
+    }
+
+    public long getISBN() {
+        return ISBN;
+    }
+
+    public int getAnnoPubblicazione() {
+        return annoPubblicazione;
     }
 
     @Override

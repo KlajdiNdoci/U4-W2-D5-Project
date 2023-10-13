@@ -191,6 +191,27 @@ public class Application {
                             break;
                         case 2:
                             System.out.println("Hai scelto l'opzione 2.");
+                            System.out.println("Inserisci il codice ISBN dell'elemento che desideri rimuovere:");
+                            long isbnToRemove = Long.parseLong(input.nextLine());
+
+                            boolean removed = false;
+                            for (Catalogo elemento : catalogo) {
+                                if (elemento != null && elemento.getISBN() == isbnToRemove) {
+                                    catalogo.remove(elemento);
+                                    removed = true;
+                                    System.out.println("Elemento rimosso con successo");
+                                    System.out.println();
+                                    System.out.println("Questo é il catalogo modificato");
+                                    System.out.println();
+                                    catalogo.forEach(System.out::println);
+                                    System.out.println();
+                                    break;
+                                }
+                            }
+
+                            if (!removed) {
+                                System.err.println("Nessun elemento trovato con il codice ISBN specificato.");
+                            }
 
                             break;
                         case 3:
