@@ -27,10 +27,6 @@ public abstract class Catalogo {
         return ISBN;
     }
 
-    public int getAnnoPubblicazione() {
-        return annoPubblicazione;
-    }
-
     @Override
     public String toString() {
         return "Catalogo{" +
@@ -40,4 +36,9 @@ public abstract class Catalogo {
                 ", numeroPagine=" + numeroPagine +
                 '}';
     }
+
+    public int getAnnoPubblicazione() {
+        return annoPubblicazione;
+    }
+
 }

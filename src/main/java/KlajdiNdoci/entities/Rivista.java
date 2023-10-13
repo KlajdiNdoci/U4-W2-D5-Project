@@ -29,11 +29,13 @@ public class Rivista extends Catalogo {
     @Override
     public String toString() {
         return "Rivista{" +
-                "periodicitá=" + periodicitá +
+                "random=" + random +
+                ", periodicitá=" + periodicitá +
                 ", ISBN=" + ISBN +
                 ", titolo='" + titolo + '\'' +
                 ", annoPubblicazione=" + annoPubblicazione +
                 ", numeroPagine=" + numeroPagine +
                 '}';
     }
+
 }

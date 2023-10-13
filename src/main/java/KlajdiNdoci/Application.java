@@ -60,7 +60,7 @@ public class Application {
                 {
                     switch (userSelection) {
                         case 1:
-                            System.out.println("Hai scelto l'opzione 1.");
+                            System.out.println("Hai scelto l'opzione 1.(aggiungere un elemento)");
                             System.out.println("Scrivi L per aggiungere un libro o R per aggiungere una rivista");
                             String userInput = input.nextLine();
                             try {
@@ -190,32 +190,31 @@ public class Application {
 
                             break;
                         case 2:
-                            System.out.println("Hai scelto l'opzione 2.");
+                            System.out.println("Hai scelto l'opzione 2.(rimuovere un elemento tramite ISBN)");
                             System.out.println("Inserisci il codice ISBN dell'elemento che desideri rimuovere:");
                             long isbnToRemove = Long.parseLong(input.nextLine());
 
-                            boolean removed = false;
-                            for (Catalogo elemento : catalogo) {
-                                if (elemento != null && elemento.getISBN() == isbnToRemove) {
-                                    catalogo.remove(elemento);
-                                    removed = true;
-                                    System.out.println("Elemento rimosso con successo");
-                                    System.out.println();
-                                    System.out.println("Questo é il catalogo modificato");
-                                    System.out.println();
-                                    catalogo.forEach(System.out::println);
-                                    System.out.println();
-                                    break;
-                                }
-                            }
-
-                            if (!removed) {
+                            List<Catalogo> removedItem = catalogo.stream().filter(elemento -> elemento != null && elemento.getISBN() == isbnToRemove).toList();
+                            if (!removedItem.isEmpty()) {
+                                catalogo.removeIf(elemento -> elemento.getISBN() == isbnToRemove);
+                                System.out.println("Elemento rimosso con successo");
+                                System.out.println(removedItem);
+                                System.out.println();
+                                System.out.println("Questo è il catalogo modificato");
+                                System.out.println();
+                                catalogo.forEach(System.out::println);
+                            } else {
                                 System.err.println("Nessun elemento trovato con il codice ISBN specificato.");
                             }
-
                             break;
+
                         case 3:
-                            System.out.println("Hai scelto l'opzione 3.");
+                            System.out.println("Hai scelto l'opzione 3.(cercare un elemento tramite ISBN)");
+                            System.out.println("Inserisci il codice ISBN dell'elemento che desideri cercare:");
+                            long findElByISBN = Long.parseLong(input.nextLine());
+                            catalogo.stream()
+                                    .filter(el -> el.getISBN() == findElByISBN).findFirst();
+
                             break;
                         case 4:
                             System.out.println("Hai scelto l'opzione 4.");
@@ -244,7 +243,7 @@ public class Application {
             }
 
         } catch (NumberFormatException e) {
-            System.err.println(e);
+            System.err.println("Hai inserito un valore non numerico " + e);
         } catch (Exception e) {
             System.err.println(e);
         } finally {
