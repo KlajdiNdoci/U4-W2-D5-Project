@@ -294,7 +294,7 @@ public class Application {
                         case 4:
                             System.out.println("Hai scelto l'opzione 4.");
                             Thread.sleep(500);
-                            System.out.println("Inserisci il codice ISBN dell'elemento che desideri cercare:");
+                            System.out.println("Inserisci l'anno dell'elemento che desideri cercare:");
                             long findByYear = Long.parseLong(input.nextLine());
                             List<Catalogo> searchedItemsByYear = catalogo.stream()
                                     .filter(elemento -> elemento != null && elemento.getAnnoPubblicazione() == findByYear)
@@ -313,6 +313,21 @@ public class Application {
                         case 5:
                             System.out.println("Hai scelto l'opzione 5.");
                             Thread.sleep(500);
+                            System.out.println("Inserisci l'autore che desideri cercare:");
+                            String findByAuthor = input.nextLine();
+                            List<Catalogo> searchedItemsByAuthor = catalogo.stream()
+                                    .filter(elemento -> elemento instanceof Libro && ((Libro) elemento).getAutore().equalsIgnoreCase(findByAuthor))
+                                    .toList();
+
+                            if (!searchedItemsByAuthor.isEmpty()) {
+                                System.out.println();
+                                System.out.println("Questo é il risultato della ricerca tramite autore");
+                                searchedItemsByAuthor.forEach(System.out::println);
+                                System.out.println();
+                            } else {
+                                System.err.println("Nessun elemento trovato con l'autore specificato.");
+                            }
+
                             break;
                         case 6:
                             System.out.println("Hai scelto l'opzione 6.");
