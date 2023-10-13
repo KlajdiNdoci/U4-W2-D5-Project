@@ -49,7 +49,6 @@ public class Application {
                 System.out.println("Inserisci 6 per salvare i dati su disco");
                 System.out.println("Inserisci 7 per caricare i dati dal disco");
                 System.out.println("Inserisci 0 per uscire");
-                System.out.println();
 
                 try {
                     userSelection = Integer.parseInt(input.nextLine());
@@ -76,17 +75,77 @@ public class Application {
                                     long bookISBN = Long.parseLong(input.nextLine());
                                     System.out.println("Inserisci l'anno di pubblicazione del libro");
                                     int bookYear = Integer.parseInt(input.nextLine());
+
+                                    boolean validBookYear = false;
+                                    while (!validBookYear) {
+                                        try {
+                                            if (bookYear < 0 || bookYear > 2023) {
+                                                System.err.println("L'anno di pubblicazione non può essere negativo.");
+                                            } else {
+                                                validBookYear = true;
+                                            }
+
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico.");
+                                        }
+                                    }
+
                                     System.out.println("Inserisci il numero di pagine del libro");
                                     int bookPages = Integer.parseInt(input.nextLine());
+
+                                    boolean validBookPages = false;
+                                    while (!validBookPages) {
+
+                                        try {
+                                            if (bookPages < 1) {
+                                                System.err.println("Il numero di pagine deve essere maggiore di zero. Riprova.");
+                                            } else {
+                                                validBookPages = true;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("Hai inserito un valore non numerico. Riprova.");
+                                        }
+                                    }
+
+
                                     Libro libro = new Libro(bookISBN, bookTitle, bookYear, bookPages, bookAuthor, bookGenre);
                                     catalogo.add(libro);
                                     System.out.println("Hai inserito questo libro");
                                     System.out.println(libro);
                                     System.out.println();
 
+                                } else if (userInput.equalsIgnoreCase("R")) {
+                                    System.out.println("Inserisci il titolo della rivista");
+                                    String magazineTitle = input.nextLine();
+                                    System.out.println("Inserisci il codice ISBN del libro");
+                                    long magazineISBN = Long.parseLong(input.nextLine());
+                                    System.out.println("Inserisci l'anno di pubblicazione del libro");
+                                    int magazineYear = Integer.parseInt(input.nextLine());
+                                    System.out.println("Inserisci il numero di pagine del libro");
+                                    int magazinePages = Integer.parseInt(input.nextLine());
+                                    System.out.println("Inserisci SET se é un settimanale, MEN se é un mensile, SEM se é un semestrale");
+                                    String magInput = input.nextLine();
+                                    Periodicitá magazinePeriodicity = null;
+                                    if (magInput.equalsIgnoreCase("SET")) {
+                                        magazinePeriodicity = Periodicitá.SETTIMANALE;
+                                    } else if (magInput.equalsIgnoreCase("MEN")) {
+                                        magazinePeriodicity = Periodicitá.MENSILE;
+                                    } else if (magInput.equalsIgnoreCase("SEM")) {
+                                        magazinePeriodicity = Periodicitá.SEMESTRALE;
+                                    } else {
+                                        System.err.println("Inserisci un valore valido");
+                                    }
+
+
+                                    Rivista rivista = new Rivista(magazineISBN, magazineTitle, magazineYear, magazinePages, magazinePeriodicity);
+                                    catalogo.add(rivista);
+                                    System.out.println("Hai inserito questo libro");
+                                    System.out.println(rivista);
+                                    System.out.println();
+
                                 }
                             } catch (NumberFormatException e) {
-                                System.err.println("Hai inserito un valore non numerico" + e);
+                                System.err.println("Hai inserito un valore non numerico " + e);
                             } catch (Exception e) {
                                 System.err.println(e);
                             }
