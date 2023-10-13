@@ -41,6 +41,7 @@ public class Application {
 
             int userSelection = -1;
             while (userSelection != 0) {
+                Thread.sleep(2000);
                 System.out.println("Inserisci 1 per aggiungere un elemento");
                 System.out.println("Inserisci 2 per rimuovere un elemento tramite ISBN");
                 System.out.println("Inserisci 3 per cercare un elemento tramite ISBN");
@@ -61,6 +62,7 @@ public class Application {
                     switch (userSelection) {
                         case 1:
                             System.out.println("Hai scelto l'opzione 1.(aggiungere un elemento)");
+                            Thread.sleep(500);
                             System.out.println("Scrivi L per aggiungere un libro o R per aggiungere una rivista");
                             String userInput = input.nextLine();
                             try {
@@ -110,6 +112,7 @@ public class Application {
 
                                     Libro libro = new Libro(bookISBN, bookTitle, bookYear, bookPages, bookAuthor, bookGenre);
                                     catalogo.add(libro);
+                                    Thread.sleep(1000);
                                     System.out.println("Hai inserito questo libro");
                                     System.out.println(libro);
                                     System.out.println();
@@ -177,6 +180,7 @@ public class Application {
 
                                     Rivista rivista = new Rivista(magazineISBN, magazineTitle, magazineYear, magazinePages, magazinePeriodicity);
                                     catalogo.add(rivista);
+                                    Thread.sleep(1000);
                                     System.out.println("Hai inserito questa rivista");
                                     System.out.println(rivista);
                                     System.out.println();
@@ -191,6 +195,7 @@ public class Application {
                             break;
                         case 2:
                             System.out.println("Hai scelto l'opzione 2.(rimuovere un elemento tramite ISBN)");
+                            Thread.sleep(500);
                             System.out.println("Inserisci il codice ISBN dell'elemento che desideri rimuovere:");
                             long isbnToRemove = Long.parseLong(input.nextLine());
 
@@ -200,9 +205,11 @@ public class Application {
                                 System.out.println("Elemento rimosso con successo");
                                 System.out.println(removedItem);
                                 System.out.println();
+                                Thread.sleep(2000);
                                 System.out.println("Questo è il catalogo modificato");
                                 System.out.println();
                                 catalogo.forEach(System.out::println);
+                                System.out.println();
                             } else {
                                 System.err.println("Nessun elemento trovato con il codice ISBN specificato.");
                             }
@@ -210,28 +217,46 @@ public class Application {
 
                         case 3:
                             System.out.println("Hai scelto l'opzione 3.(cercare un elemento tramite ISBN)");
+                            Thread.sleep(500);
                             System.out.println("Inserisci il codice ISBN dell'elemento che desideri cercare:");
                             long findElByISBN = Long.parseLong(input.nextLine());
-                            catalogo.stream()
-                                    .filter(el -> el.getISBN() == findElByISBN).findFirst();
+                            List<Catalogo> searchedItemByISBN = catalogo.stream()
+                                    .filter(elemento -> elemento != null && elemento.getISBN() == findElByISBN)
+                                    .toList();
 
+                            if (!searchedItemByISBN.isEmpty()) {
+                                System.out.println();
+                                System.out.println("Questo é l'elemento cercato");
+                                System.out.println(searchedItemByISBN);
+                                System.out.println();
+                            } else {
+                                System.err.println("Nessun elemento trovato con il codice ISBN specificato.");
+                            }
                             break;
+
                         case 4:
                             System.out.println("Hai scelto l'opzione 4.");
+                            Thread.sleep(500);
+
+
                             break;
                         case 5:
                             System.out.println("Hai scelto l'opzione 5.");
+                            Thread.sleep(500);
                             break;
                         case 6:
                             System.out.println("Hai scelto l'opzione 6.");
+                            Thread.sleep(500);
 
                             break;
                         case 7:
                             System.out.println("Hai scelto l'opzione 7.");
+                            Thread.sleep(500);
 
                             break;
                         case 0:
                             System.out.println("Stai uscendo dal programma.");
+                            Thread.sleep(500);
                             break;
 
                         default:
