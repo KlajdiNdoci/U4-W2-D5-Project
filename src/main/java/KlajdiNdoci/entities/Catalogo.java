@@ -2,7 +2,7 @@ package KlajdiNdoci.entities;
 
 import java.util.Random;
 
-public class Catalogo {
+public abstract class Catalogo {
     protected long ISBN;
     protected String titolo;
     protected int annoPubblicazione;
